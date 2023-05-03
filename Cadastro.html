@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Horário de Funcionários</title>
+    <!-- vincular o arquivo CSS aqui -->
+    <link rel="stylesheet" href="CSS/Cookie.css">
+	</head>
+		<body>
+			
+      <form>
+        <label for="nomeempresa">Empresa:</label><br>
+        <input type="text" id="nomeempresa" name="nomeempresa"><br>
+        <label for="funcionario">Nome do funcionário:</label><br>
+        <input type="text" id="funcionario" name="funcionario"><br>
+
+      </select><br>
+        <label for="totalhouras">Total de horas no mês (nos dias de início e fim da folha):</label><br>
+        <input type="number" id="totalhouras" name="totalhouras"> horas<br>
+        <label for="horatrabalhada">Horário total de trabalho no dia:</label><br>
+        <input type="time" id="horatrabalhada" name="horatrabalhada" step="1"><br>
+        
+        <label for="jornadadetrabalho">Jornada de trabalho:</label><br>
+        <input type="checkbox" id="monday" name="jornadadetrabalho" value="monday">
+        <label for="monday">Segunda-feira</label><br>
+        <input type="checkbox" id="tuesday" name="jornadadetrabalho" value="tuesday">
+        <label for="tuesday">Terça-feira</label><br>
+        <input type="checkbox" id="wednesday" name="jornadadetrabalho" value="wednesday">
+        <label for="wednesday">Quarta-feira</label><br>
+        <input type="checkbox" id="thursday" name="jornadadetrabalho" value="thursday">
+        <label for="thursday">Quinta-feira</label><br>
+        <input type="checkbox" id="friday" name="jornadadetrabalho" value="friday">
+        <label for="friday">Sexta-feira</label><br>
+        <input type="checkbox" id="saturday" name="jornadadetrabalho" value="saturday">
+        <label for="saturday">Sábado</label><br>
+        <input type="checkbox" id="sunday" name="jornadadetrabalho" value="sunday">
+        <label for="sunday">Domingo</label><br>
+
+        <label for="iniciodafolha">Data início da folha:</label><br>
+        <input type="date" id="iniciodafolha" name="iniciodafolha"><br><br>
+        <label for="fimdafolha">Data fim da folha:</label><br>
+        <input type="date" id="fimdafolha" name="fimdafolha"><br><br>
+  
+  
+<!-- Scripts recuperação do cadastro cookies -->
+<script>
+  var Empresa = document.getElementById("nomeempresa");
+  var Funcionario = document.getElementById("funcionario");
+  
+  var nomeempresa = localStorage.getItem("nomeempresa");
+  var funcionario = localStorage.getItem("funcionario");         
+ 
+  var horaPadrao = document.getElementById("horatrabalhada");
+  var dataInicio = document.getElementById("iniciodafolha");
+  var dataFim = document.getElementById("fimdafolha");
+ 
+  var totalhouras = localStorage.getItem("horatrabalhada");
+  var iniciodafolha = localStorage.getItem("iniciodafolha");
+  var fimdafolha = localStorage.getItem("fimdafolha");
+ 
+  Empresa.value = nomeempresa;
+  Funcionario.value = funcionario;
+  horaPadrao.value = totalhouras;
+  dataInicio.value = iniciodafolha;
+  dataFim.value = fimdafolha;
+</script>
+
+<!-- CONTINUA -->
+
+
+
+
+  <input type="button" value="Voltar para Index" onclick="window.location.href='index.php';">
+  <input type="button" value="Salvar Dados" onclick="saveData();">
+  <input type="button" value="Mostrar Informações" onclick="CalcularResultado();">
+</form> 
+
+
+
+<!-- Banner de cookies -->
+<div id="cookie-banner">
+  <p>Este site usa cookies para melhorar sua experiência. Ao continuar navegando, você concorda com o uso de cookies.</p>
+  <button id="accept-cookies">Aceitar cookies</button>
+</div>
+
+<!-- Scripts cookies-->
+<script src="js/cookies.js"></script>
+</body>
+   
+
+
+
+<script>
+function saveData() {
+    // Get the values from the form
+    var nomeempresa = document.getElementById("nomeempresa").value;
+    var funcionario = document.getElementById("funcionario").value;
+    var iniciodafolha = document.getElementById("iniciodafolha").value;
+    var fimdafolha = document.getElementById("fimdafolha").value;
+    var totalhouras = document.getElementById("totalhouras").value;
+    var horatrabalhada = document.getElementById("horatrabalhada").value;
+
+    // Save the data to localStorage
+    localStorage.setItem("nomeempresa", nomeempresa);
+    localStorage.setItem("funcionario", funcionario);
+    localStorage.setItem("iniciodafolha", iniciodafolha);
+    localStorage.setItem("fimdafolha", fimdafolha);
+    localStorage.setItem("totalhouras", totalhouras);
+    localStorage.setItem("horatrabalhada", horatrabalhada);
+    
+ // Get the values from the form
+var diasTrabalho = [];
+var diasFolga = [];
+var diasSemana = ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"];
+for (var i = 0; i < diasSemana.length; i++) {
+    var dia = diasSemana[i];
+    var checkbox = document.getElementById(dia);
+    if (checkbox.checked) {
+        diasTrabalho.push(dia);
+    } else {
+        diasFolga.push(dia);
+    } 
+}
+
+// Save the data to localStorage
+localStorage.setItem("diasTrabalho", JSON.stringify(diasTrabalho));
+localStorage.setItem("diasFolga", JSON.stringify(diasFolga));
+}
+</script>
+
+</html>

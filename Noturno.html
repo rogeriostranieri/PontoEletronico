@@ -1,0 +1,75 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Horário de Funcionários</title>
+		<style>
+			body {
+				font-size: 14px; /* tamanho padrão da fonte */
+				margin: 0; /* remover margens padrão */
+				padding: 0; /* remover padding padrão */
+			}
+
+			table {
+				width: 100%; /* largura total da tabela */
+				border-collapse: collapse; /* remover espaços entre as células */
+				margin-bottom: 20px; /* margem abaixo da tabela */
+			}
+
+			th, td {
+				text-align: center; /* alinhar texto ao centro */
+				padding: 5px; /* padding das células */
+				border: 1px solid black; /* bordas das células */
+				font-size: 12px; /* tamanho da fonte das células */
+			}
+
+			th {
+				background-color: lightgray; /* cor de fundo dos títulos */
+			}
+
+			.date {
+				font-weight: bold; /* deixar a data em negrito */
+				font-size: 16px; /* aumentar tamanho da fonte da data */
+				margin-bottom: 10px; /* margem abaixo da data */
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Folha de Ponto</h1>
+		<table>
+		  <thead>
+			<tr>
+			  <th style="text-align: center;">Data</th>
+			  <th style="text-align: center;">Entrada e Saída 1º Turno</th>
+			  <th style="text-align: center;">Entrada e Saída 2º Turno</th>
+			  <th style="text-align: center;">Total do Dia</th>
+			  <th style="text-align: center;">Diferença</th>
+			  <th style="text-align: center;">A Mais</th>
+			  <th style="text-align: center;">A Menos</th>
+			  <th style="text-align: center;">Adicional Noturno</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<!-- Loop para criar 31 linhas na tabela -->
+			<?php for ($i = 1; $i <= 31; $i++) { ?>
+			<tr>
+			  <td style="text-align: center;"><input type="text" name="data<?php echo $i ?>" value="<?php echo $i ?>/04" required></td>
+			  <td style="text-align: center;"><input type="time" name="entrada1_<?php echo $i ?>" required> - <input type="time" name="saida1_<?php echo $i ?>" required></td>
+			  <td style="text-align: center;"><input type="time" name="entrada2_<?php echo $i ?>"> - <input type="time" name="saida2_<?php echo $i ?>"></td>
+			  <td style="text-align: center;"><input type="number" min="0" max="24" name="dia<?php echo $i ?>" required></td>
+			  <td style="text-align: center;"><input type="number" min="-24" max="24" name="diferenca<?php echo $i ?>" readonly></td>
+			  <td style="text-align: center;"><input type="number" min="0" max="24" name="a_mais<?php echo $i ?>" readonly></td>
+			  <td style="text-align: center;"><input type="number" min="0" max="24" name="a_menos<?php echo $i ?>" readonly></td>
+			  <td style="text-align: center;"><input type="number" min="0" max="24" name="adicional_noturno<?php echo $i ?>"></td>
+			</tr>
+			<?php } ?>
+		  </tbody>
+		</table>
+		<button type="submit">Enviar</button>
+		<button type="button" onclick="calcularAdicionalNoturno()">Calcular Adicional Noturno</button>
+	  </body>
+	  
+
+
+
+	</html>

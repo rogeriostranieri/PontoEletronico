@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Adicional Noturno</title>
+    <link rel="stylesheet" href="css/InicialCSS.css">
+</head>
+<body>
+    <h1>Calculadora de Adicional Noturno</h1>
+    <table>
+        <tr>
+            <th></th>
+            <th>1º Turno</th>
+            <th>/</th>
+            <th>2º Turno</th>
+        </tr>
+        <tr>
+           
+            <td><input type="time" id="primeiroTurnoInicio" name="primeiroTurnoInicio" class="turno1"></td>
+          
+            <td><input type="time" id="primeiroTurnoTermino" name="primeiroTurnoTermino" class="turno1"></td>
+           
+            <th><b>/</b></th>
+            
+            <td><input type="time" id="segundoTurnoInicio" name="segundoTurnoInicio" class="turno2"></td>
+         
+            <td><input type="time" id="segundoTurnoTermino" name="segundoTurnoTermino" class="turno2"></td>
+
+        </tr>
+        <tr>
+     
+        </tr>
+    </table>
+    <button type="button" onclick="calcularAdicionalNoturno()">Calcular Adicional Noturno</button>
+    <div id="resultadoPrimeiroTurnoNoturno"></div>
+    <div id="resultadoSegundoTurnoNoturno"></div>
+    <div id="resultadoTotalNoturno"></div>
+    
+    <script src="js/InicialJS.js"></script>
+</body>
+
+
+
+    <script>
+   /////////////////////////////////////////////INICIO
+
+   
+   function calcularAdicionalNoturno() {
+    // Obter valores do formulário
+    var primeiroTurnoInicio = document.getElementById("primeiroTurnoInicio").value;
+    var primeiroTurnoTermino = document.getElementById("primeiroTurnoTermino").value;
+    var segundoTurnoInicio = document.getElementById("segundoTurnoInicio").value;
+    var segundoTurnoTermino = document.getElementById("segundoTurnoTermino").value;
+
+     // Converter valores para objetos Date
+	 var hoje = new Date();
+	 var primeiroTurnoInicioDate = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), parseInt(primeiroTurnoInicio.substring(0, 2)), parseInt(primeiroTurnoInicio.substring(3)));
+	 var primeiroTurnoTerminoDate = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), parseInt(primeiroTurnoTermino.substring(0, 2)), parseInt(primeiroTurnoTermino.substring(3)));
+	 var segundoTurnoInicioDate = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), parseInt(segundoTurnoInicio.substring(0, 2)), parseInt(segundoTurnoInicio.substring(3)));
+	 var segundoTurnoTerminoDate = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), parseInt(segundoTurnoTermino.substring(0, 2)), parseInt(segundoTurnoTermino.substring(3)));
+ 
+	 // Verificar se o término do turno atravessou a meia-noite e ajustar as datas, se necessário
+	 if (primeiroTurnoTerminoDate < primeiroTurnoInicioDate) {
+		 primeiroTurnoTerminoDate.setDate(primeiroTurnoTerminoDate.getDate() + 1);
+	 }
+	 if (segundoTurnoTerminoDate < segundoTurnoInicioDate) {
+		 segundoTurnoTerminoDate.setDate(segundoTurnoTerminoDate.getDate() + 1);
+	 }
+ 
+	 // Definir constantes para hora noturna
+	 var horaNoturnaInicio = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate(), 22, 0, 0);
+	 var horaNoturnaTermino = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() + 1, 5, 0, 0);
+ 
+    // Calcular horas noturnas trabalhadas
+    var horasNoturnasTrabalhadasPrimeiro = 0;
+	var horasNoturnasTrabalhadasSegundo = 0;
+    if (primeiroTurnoInicio && primeiroTurnoTermino) {
+        horasNoturnasTrabalhadasPrimeiro += calcularHorasNoturnas(primeiroTurnoInicioDate, primeiroTurnoTerminoDate, horaNoturnaInicio, horaNoturnaTermino);
+    }
+    if (segundoTurnoInicio && segundoTurnoTermino) {
+        horasNoturnasTrabalhadasSegundo += calcularHorasNoturnas(segundoTurnoInicioDate, segundoTurnoTerminoDate, horaNoturnaInicio, horaNoturnaTermino);
+    }
+
+    // Exibir resultado 1
+	var horas = Math.floor(horasNoturnasTrabalhadasPrimeiro);
+	var minutos = Math.round((horasNoturnasTrabalhadasPrimeiro - horas) * 52.5);
+	document.getElementById("resultadoPrimeiroTurnoNoturno").innerHTML = "1º Turno = Horas noturnas trabalhadas: " + horasNoturnasTrabalhadasPrimeiro.toFixed(2) + " (" + horas.toString().padStart(2, '0') + ":" + minutos.toString().padStart(2, '0') + ")";
+	
+	 // Exibir resultado 2
+	var horas = Math.floor(horasNoturnasTrabalhadasSegundo);
+	var minutos = Math.round((horasNoturnasTrabalhadasSegundo - horas) * 52.5);
+	document.getElementById("resultadoSegundoTurnoNoturno").innerHTML = "2º Turno = Horas noturnas trabalhadas: " + horasNoturnasTrabalhadasSegundo.toFixed(2) + " (" + horas.toString().padStart(2, '0') + ":" + minutos.toString().padStart(2, '0') + ")";
+
+
+	// Somar as horas noturnas trabalhadas nos dois turnos
+var totalHorasNoturnasTrabalhadas = horasNoturnasTrabalhadasPrimeiro + horasNoturnasTrabalhadasSegundo;
+
+// Exibir resultado total
+var horas = Math.floor(totalHorasNoturnasTrabalhadas);
+var minutos = Math.round((totalHorasNoturnasTrabalhadas - horas) * 52.5);
+document.getElementById("resultadoTotalNoturno").innerHTML = "Total = Horas noturnas trabalhadas: " + totalHorasNoturnasTrabalhadas.toFixed(2) + " (" + horas.toString().padStart(2, '0') + ":" + minutos.toString().padStart(2, '0') + ")";	
+
+}
+
+
+
+function calcularHorasNoturnas(turnoInicio, turnoTermino, horaNoturnaInicio, horaNoturnaTermino) {
+    
+	// Verificar se o turno está dentro do período noturno
+    if (turnoTermino < horaNoturnaInicio || turnoInicio > horaNoturnaTermino) {
+        return 0;
+    }
+
+    // Ajustar início e término do turno para ficar dentro do período noturno
+    if (turnoInicio < horaNoturnaInicio) {
+        turnoInicio = horaNoturnaInicio;
+    }
+    if (turnoTermino > horaNoturnaTermino) {
+        turnoTermino = horaNoturnaTermino;
+    }
+
+    // Calcular a duração do turno em milissegundos
+    var duracao = turnoTermino - turnoInicio;
+
+    // Converter milissegundos para horas e ajustar para a duração da hora noturna (52min30s)
+    var horas = duracao / 1000 / 60 / 60 * (60 / 52.5);
+
+    return horas;
+}
+
+	
+ 
+	/////////////////////////////////////////////FINAL
+	 </script>
+
+
+</body>
+</html>

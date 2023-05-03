@@ -1,0 +1,84 @@
+  /* adicione seus estilos aqui */
+  body {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+  }
+
+  @media print {
+    body {
+      font-size: 10pt;
+    }
+    @page {
+      size: A4;
+      margin: 1cm;
+    }
+  }
+
+  @media (max-width: 600px) {
+    body {
+      font-size: 14px;
+    }
+  }
+
+  @media (min-width: 601px) {
+    body {
+      font-size: 16px;
+    }
+  }
+
+  /* outros estilos */
+  
+        body {
+            font-size: 12px; /* tamanho padrão da fonte */
+            margin: 0; /* remover margens padrão */
+            padding: 0; /* remover padding padrão */
+        }
+
+        table {
+            width: 100%; /* largura total da tabela */
+            border-collapse: collapse; /* remover espaços entre as células */
+            margin-bottom: 20px; /* margem abaixo da tabela */
+        }
+
+        th, td {
+            text-align: center; /* alinhar texto ao centro */
+            padding: 5px; /* padding das células */
+            border: 1px solid black; /* bordas das células */
+            font-size: 12px; /* tamanho da fonte das células */
+        }
+
+        th {
+            background-color: lightgray; /* cor de fundo dos títulos */
+        }
+
+        .date {
+            font-weight: bold; /* deixar a data em negrito */
+            font-size: 12px; /* aumentar tamanho da fonte da data */
+            margin-bottom: 10px; /* margem abaixo da data */
+        }
+
+
+        .button {
+          display: inline-block;
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+          text-align: center;
+          text-decoration: none;
+          outline: none;
+          color: #fff;
+          background-color: #4CAF50;
+          border: none;
+          border-radius: 15px;
+          box-shadow: 0 9px #999;
+        }
+        
+        .button:hover {background-color: #3e8e41}
+        
+        .button:active {
+          background-color: #3e8e41;
+          box-shadow: 0 5px #666;
+          transform: translateY(4px);
+        }
+ 
